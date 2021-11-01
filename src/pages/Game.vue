@@ -10,8 +10,8 @@
           <div class="col value" v-for="category in questionCategory"
                :key="category.id"
                @click="!answers.find((item) => item.id === category.id) && autoClose(category)"
-               :class="wrongAnswers.find((item) =>item.id === category.id)? 'bg-red':
-                rightAnswers.find((item) => item.id == category.id)? 'bg-green':'' "
+               :class="misspelled.find((item) =>item.id === category.id)? 'bg-red':
+                wroteСorrectly.find((item) => item.id == category.id)? 'bg-green':'' "
           >
             {{ category.value }}
           </div>
@@ -32,20 +32,20 @@ import { useQuasar } from 'quasar';
 export default {
   name: 'Game',
   components: {},
-  setup() {
+  data() {
     const $store = useStore();
     const $q = useQuasar();
     const gameData = computed({
       get: () => $store.getters['user/GET_GAME_DATA'],
     });
-    const wrongAnswers = computed({
+    const misspelled = computed({
       get: () => $store.getters['user/GET_WRONG_ANSWERS'],
     });
-    const rightAnswers = computed({
+    const wroteСorrectly = computed({
       get: () => $store.getters['user/GET_TRUE_ANSWERS'],
     });
     const answers = computed({
-      get: () => [...wrongAnswers.value, ...rightAnswers.value],
+      get: () => [...misspelled.value, ...wroteСorrectly.value],
     });
     const userName = computed({
       get: () => $store.getters['user/GET_USER_NAME'],
@@ -54,14 +54,10 @@ export default {
       $store,
       gameData,
       $q,
-      rightAnswers,
-      wrongAnswers,
+      wroteСorrectly,
+      misspelled,
       answers,
       userName,
-    };
-  },
-  data() {
-    return {
       switchGame: false,
     };
   },
@@ -71,12 +67,10 @@ export default {
   beforeUnmount() {
     const wrong = this.$store.state.user.user.isAnswerWrong;
     const right = this.$store.state.user.user.isAnswerTrue;
-    // eslint-disable-next-line max-len
     localStorage.setItem(this.userName, JSON.stringify({ wrong: [...wrong] || null, right: [...right] || null }));
   },
   methods: {
     autoClose(question) {
-      console.log(question.answer);
       let seconds = 60;
       const dialog = this.$q.dialog({
         title: `<h3 class="text-center text-dark">Category:
@@ -89,7 +83,7 @@ export default {
                    Closing in ${seconds} second${seconds > 1 ? 's' : ''}</p>`,
         prompt: {
           model: '',
-          type: 'text', // optional
+          type: 'text',
         },
         html: true,
       }).onOk((data) => {
@@ -109,12 +103,9 @@ export default {
         const questionData = { id: question.id, value: question.value, flag: true };
         this.isWrongAnswer(questionData);
       }).onDismiss(() => {
-        // eslint-disable-next-line no-use-before-define
         clearTimeout(timer);
-        // console.log('I am triggered on both OK and Cancel')
       });
       const timer = setInterval(() => {
-        // eslint-disable-next-line no-plusplus
         seconds--;
         if (seconds > 0) {
           dialog.update({

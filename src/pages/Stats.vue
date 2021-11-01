@@ -1,50 +1,53 @@
 <template>
   <q-page >
-  <p class="text-h5 text-weight-medium  text-center"> Statistic of:
-    <span class="text-weight-bold tex">{{userName.toUpperCase()}}</span> </p>
-    <p class=" text-body1 text-weight-medium" >Points scored:
-      <span v-bind:class=" point > 0? 'text-green':'text-red'">{{point}}</span></p>
-    <p class=" text-body1 text-weight-medium  ">
-      Amount right answers: <span class="text-green-3">{{rightAnswers.length}}</span>
+  <p class="text-h5 text-weight-medium  text-center"> Статистика игрока :
+    <span class="text-weight-bold tex">{{userName}}</span> </p>
+    <p class="text-center text-body1 text-weight-bold" >Набранные очки :
+      <span v-bind:class=" point > 0? 'text-blue':'text-red'">{{point}}</span></p>
+    <p class="text-center text-body1 text-weight-bold  ">
+      Кол-во правильных ответов : <span class="text-blue-3">{{wroteСorrectly.length}}</span>
     </p>
-    <p class=" text-body1 text-weight-medium ">
-      Amount wrong answers: <span class="text-red-4">{{wrongAnswers.length}}</span>
+    <p class="text-center text-body1 text-weight-bold ">
+      Кол-во неправильных ответов : <span class="text-red-4">{{misspelled.length}}</span>
     </p>
-    <p class=" text-body1 text-weight-medium">
-      Amount answers:
-      <span class="text-dark">{{wrongAnswers.length + rightAnswers.length}}</span>
+    <p class="text-center text-body1 text-weight-bold">
+      Кол-во всех ответов :
+      <span class="text-dark">{{misspelled.length + wroteСorrectly.length}}</span>
     </p>
   </q-page>
 </template>
 
 <script>
-import { computed, defineComponent } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 
-export default defineComponent({
+export default {
   name: 'Stats',
-  setup() {
+  data() {
     const $store = useStore();
-    const wrongAnswers = computed({
+    const misspelled = computed({
       get: () => $store.getters['user/GET_WRONG_ANSWERS'].map((item) => item.value),
     });
-    const rightAnswers = computed({
+    const wroteСorrectly = computed({
       get: () => $store.getters['user/GET_TRUE_ANSWERS'].map((item) => item.value),
     });
     const userName = computed({
       get: () => $store.getters['user/GET_USER_NAME'],
     });
     const point = computed({
-      // eslint-disable-next-line max-len
-      get: () => rightAnswers.value.reduce((prev, next) => prev + next, 0)
-      - wrongAnswers.value.reduce((prev, next) => prev + next, 0),
+      get: () => wroteСorrectly.value.reduce((prev, next) => prev + next, 0)
+      - misspelled.value.reduce((prev, next) => prev + next, 0),
     });
     return {
-      rightAnswers,
-      wrongAnswers,
+      wroteСorrectly,
+      misspelled,
       userName,
       point,
     };
   },
-});
+};
 </script>
+
+<style scoped>
+
+</style>
