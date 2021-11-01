@@ -22,7 +22,7 @@ import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
-  name: 'StatisticPage',
+  name: 'Stats',
   setup() {
     const $store = useStore();
     const wrongAnswers = computed({

@@ -30,7 +30,7 @@ import { computed } from 'vue';
 import { useQuasar } from 'quasar';
 
 export default {
-  name: 'PageGame',
+  name: 'Game',
   components: {},
   setup() {
     const $store = useStore();
