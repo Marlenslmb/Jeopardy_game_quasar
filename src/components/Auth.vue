@@ -24,13 +24,11 @@ import { useStore } from 'vuex';
 
 export default {
   name: 'Auth',
-  setup() {
+  data() {
     const $q = useQuasar();
     const name = ref(null);
     const $store = useStore();
     return {
-      name,
-
       onSubmit() {
         $store.dispatch('user/SET_USER_NAME_STATE', name.value);
         $q.notify({
@@ -40,6 +38,7 @@ export default {
           message: 'Вы вошли в игру',
         });
       },
+      name,
     };
   },
 };
