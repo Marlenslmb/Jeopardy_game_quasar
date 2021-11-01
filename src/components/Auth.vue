@@ -7,12 +7,12 @@
       <q-input
         filled
         v-model="name"
-        label="Ваше имя *"
+        label="Имя"
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Пожалуйста напишите имя']"
+        :rules="[ val => val && val.length > 0 || 'Напишите имя']"
       />
       <div>
-        <q-btn label="Submit" type="submit" color="primary"/>
+        <q-btn label="Войти" type="submit" color="primary"/>
       </div>
     </q-form>
   </div>
@@ -37,7 +37,7 @@ export default {
           color: 'green-4',
           textColor: 'white',
           icon: 'cloud_done',
-          message: 'Авторизован',
+          message: 'Вы вошли в игру',
         });
       },
     };

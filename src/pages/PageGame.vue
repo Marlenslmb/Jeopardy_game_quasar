@@ -18,8 +18,8 @@
         </div>
       </div>
     </div>
-    <h5 class="" v-else>You out of the game</h5>
-    <q-btn class="q-mx-auto" color="primary" :label="switchGame? 'End game':'Start Game'"
+    <h5 class="h5h5" v-else>Вы вне игры</h5>
+    <q-btn class="q-mx-auto" color="primary" :label="switchGame? 'Конец игры':'Начать игру'"
            @click="switchStartEnd"/>
   </q-page>
 </template>
@@ -154,8 +154,16 @@ export default {
   p {
     min-width: 135px !important;
   }
-;
-}
+};
+.q-mx-auto{
+  display: flex;
+  justify-content: center
+};
+.h5h5{
+  display: flex;
+  justify-content: center;
+  color: red
+};
 
 .col {
   min-width: 60px !important;
