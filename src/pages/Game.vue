@@ -93,7 +93,7 @@ export default {
             color: 'green-4',
             textColor: 'white',
             icon: 'cloud_done',
-            message: `You answer is true achieve = ${question.value}`,
+            message: `Вы ответили верно = ${question.value}`,
           });
         } else {
           const questionData = { id: question.id, value: question.value };
@@ -123,8 +123,8 @@ export default {
       }, 1000);
     },
     isWrongAnswer(data) {
-      const close = `You close window! Deducted from your points = ${data.value}`;
-      const answer = `Your answer wrong! Deducted from your points = ${data.value}`;
+      const close = `Если закроете окно, вычтим из ваших баллов = ${data.value}`;
+      const answer = `Ваш ответ не верный, вычли очки = ${data.value}`;
       this.$store.dispatch('user/SET_WRONG_ANSWER_STATE', data);
       this.$q.notify({
         color: 'red-5',
@@ -148,7 +148,8 @@ export default {
 };
 .q-mx-auto{
   display: flex;
-  justify-content: center
+  justify-content: center;
+  margin-top: 20px;
 };
 .h5h5{
   display: flex;
